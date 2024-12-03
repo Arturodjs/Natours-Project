@@ -1,3 +1,9 @@
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
+@use 'base/base';
+@use 'base/animations';
+@use 'base/utilities';
+@use 'base/typography';
 /*
 COLORS:
 
@@ -6,46 +12,13 @@ Medium green: #55c57a
 Dark green: #28b485
 
 */
-// @import "abstracts/variables.scss";
-// @import "base/base.scss";
 
-
-$color-primary: #55c57a;
-$color-primary-light: #7ed56f;
-$color-primary-dark: #28b485;
-
-$color-grey-dark: #777;
-$color-white: #fff;
-$color-black: #000;
-
-*,
-*::after,
-*::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
-
-html {
-    font-size: 62.5%;
-    /* 100% is 16px by default so 62.5% is 10px */
-}
-
-body {
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    /* font-size: 16px; */
-    line-height: 1.7;
-    color: $color-grey-dark;
-    padding: 3rem;
-    box-sizing: border-box;
-}
 
 .header {
     height: 95vh;
     background-image: linear-gradient(to right bottom,
-    rgba($color-primary-light, 0.8), 
-    rgba($color-primary-dark, 0.8)), 
+    rgba(variables.$color-primary-light, 0.8), 
+    rgba(variables.$color-primary-dark, 0.8)), 
     url('/img/hero.jpg ');
     background-size: cover;
     background-position: top;
@@ -78,82 +51,6 @@ body {
 
 
 
-.heading-primary {
-    color: $color-white;
-    text-transform: uppercase;
-    backface-visibility: hidden;
-    margin-bottom: 6rem;
-
-    &--main {
-        display: block;
-        font-size: 6rem;
-        font-weight: 400;
-        letter-spacing: 3.5rem;
-        /* animation-name: moveInLeft;
-        animation-duration: 3s; */
-        animation: moveInLeft 1s ease-out;
-    }
-    
-    &--sub {
-        display: block;
-        font-size: 2rem;
-        font-weight: 400;
-        letter-spacing: 1.75rem;
-        /* animation-name: moveInRight;
-        animation-duration: 3s; */
-        animation: moveInRight 1s ease-out;
-    }
-}
-
-
-
-@keyframes moveInLeft {
-    0% {
-        opacity: 0;
-        transform: translate(-10rem);
-    }
-
-    80% {
-        transform: translate(1rem);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(0);
-    }
-}
-
-@keyframes moveInRight {
-    0% {
-        opacity: 0;
-        transform: translate(10rem);
-    }
-
-    80% {
-        transform: translate(-1rem);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(0);
-    }
-}
-
-@keyframes moveInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(10rem);
-    }
-
-    80% {
-        transform: translateY(-1rem);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 .btn {
     &:link,
@@ -165,12 +62,12 @@ body {
         border-radius: 10rem;
         transition: all .2s;
         position: relative;
-        font-size: 1.6rem;
+        font-size: variables.$default-font-size;
     }
 
     &:hover {
         transform: translateY(-3px);
-        box-shadow: 0 1rem 2rem rgba($color-black, 0.2); 
+        box-shadow: 0 1rem 2rem rgba(variables.$color-black, 0.2); 
     
         &::after {
             transform: scaleX(1.4)
@@ -182,7 +79,7 @@ body {
 
     &:active {
         transform: translateY(-1px);
-        box-shadow: 0 .5rem 1rem rgba($color-black, 0.2); 
+        box-shadow: 0 .5rem 1rem rgba(variables.$color-black, 0.2); 
     }
 
     &::after {
@@ -199,11 +96,11 @@ body {
     }
 
     &--white {
-        background-color: $color-white;
-        color: $color-grey-dark;
+        background-color: variables.$color-white;
+        color: variables.$color-grey-dark;
 
         &::after {
-            background-color: $color-white;
+            background-color: variables.$color-white;
         }
     }
 
@@ -211,4 +108,114 @@ body {
     &--animated {
         animation: moveInUp 1s ease-out;
     }
+}
+
+.btn-text {
+    &:link,
+    &:visited{
+        font-size: variables.$default-font-size;
+        color: variables.$color-primary;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px solid variables.$color-primary;
+        padding: 3px;
+        transition: all .2s;
+    }
+
+    &:hover{
+        background-color: variables.$color-primary;
+        color: variables.$color-white;
+        box-shadow: 0 1rem 2rem rgba(variables.$color-black, .15);
+        transform: translateY(-2px);
+
+    }
+
+    &:active{
+        box-shadow: 0 1rem 2rem rgba(variables.$color-black, .15);
+        transform: translateY(0)
+    }
+}
+
+
+.row {
+    max-width: variables.$grid-width; //1140px
+    margin: 0 auto;
+    display: flex;
+    
+    &:not(:last-child) {
+        margin-bottom: variables.$gutter-vertical;
+    }
+
+    @include mixins.clearfix;
+
+    .col-1-of-2 {
+        width: calc((100% - variables.$gutter-horizontal)/2);
+    }
+
+    .col-1-of-3 {
+        width: calc((100% - 2 * variables.$gutter-horizontal)/3);
+    }
+
+    .col-2-of-3 {
+        width: calc(( 2 * (100% - 2 * variables.$gutter-horizontal)/3) + variables.$gutter-horizontal)
+    }
+
+    .col-1-of-4 {
+        width: calc((100% - 3 * variables.$gutter-horizontal)/4);
+    }
+
+    .col-2-of-4 {
+        width: calc(2* ((100% - 3 * variables.$gutter-horizontal)/4) + variables.$gutter-horizontal);
+    }
+
+    .col-3-of-4 {
+        width: calc(3* ((100% - 3 * variables.$gutter-horizontal)/4) + 2*variables.$gutter-horizontal);
+    }
+}
+
+.section-about{
+    background-color: variables.$color-grey-light-1;
+    padding: 25vh 0;
+    margin-top: -20vh
+}
+
+.composition {
+
+    position: relative;
+
+    &__photo{
+        width: 55%;
+        box-shadow: 0 1.5rem 4rem rgba(variables.$color-black, .4);
+        position: absolute;
+        z-index: 10;
+        transition: all .2s;
+        outline-offset: 2rem;
+    
+        &--p1{
+            left: 0;
+            top: -2rem;
+        }
+        
+        &--p2{
+            right: 0;
+            top: 2rem;
+        }
+        
+        &--p3{
+            left: 20%;
+            top: 10rem;
+        }
+
+        &:hover {
+            transform: scale(1.05) translayeY(-.5rem);
+            box-shadow: 0 2.5rem 4rem rgba(variables.$color-black, .5);
+            z-index: 20;
+            outline: 1.5rem solid variables.$color-primary;
+        }
+    }
+
+    &:hover &__photo:not(:hover){
+        transform: scale(.95);
+    }
+    
 }
